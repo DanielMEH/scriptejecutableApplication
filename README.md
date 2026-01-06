@@ -1,0 +1,2 @@
+# scriptejecutableApplication
+ejecutar docker composer

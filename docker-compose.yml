@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  sv_dev_db:
+    image: postgres:15
+    container_name: database-dev
+    environment:
+      POSTGRES_PASSWORD: "V$#KYT@1"
+      POSTGRES_DB: postgres
+    ports:
+      - "1525:5432"
+    volumes:
+      - psql_data_dev:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - all_dev_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redsocial:
+    build: ./redsocial 
+    container_name: sv-redsocial
+    environment:
+      - SECRET_JWT=YYEyewuooiwis
+      - URL_POSTGRESS_DB=host=sv_dev_db user=postgres password=V$#KYT@1 dbname=postgres port=5432 sslmode=disable
+    ports:
+      - "3003:3003"
+    networks:
+      - all_dev_network
+    depends_on:
+      - sv_dev_db
+  
+  postredsocial:
+    build: ./postredsocial 
+    container_name: sv-postredsocial
+    environment:
+      - SECRET_JWT=YYEyewuooiwis
+      - URL_POSTGRESS_DB=host=sv_dev_db user=postgres password=V$#KYT@1 dbname=postgres port=5432 sslmode=disable
+    ports:
+      - "3004:3004"
+    networks:
+      - all_dev_network
+    depends_on:
+      - sv_dev_db
+
+volumes:
+  psql_data_dev:
+
+networks:
+  all_dev_network:
+    driver: bridge

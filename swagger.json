@@ -1,0 +1,175 @@
+openapi: 3.0.0
+info:
+  title: prueba tecnica periferia
+  version: 1.0.0
+servers:
+  - url: http: //localhost:3003
+  - url: http: //localhost:3004
+tags:
+  - name: users
+  - name: posts
+paths:
+  /api/v1/system/add_new_account:
+    post:
+      tags:
+        - users
+      summary: crear account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: jdanielospina351@gmail.com
+                password: '123456'
+                confirm_password: '123456'
+                display_name: Darianseb
+                first_name: jose
+                last_name: Garcia
+                birth_date: '2005-10-31'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/system/login:
+    post:
+      tags:
+        - users
+      summary: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: jdanielospina351@gmail.com
+                password: '123456'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/system/profile:
+    get:
+      tags:
+        - users
+      summary: get profile
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer {
+    {account_token
+    }
+}
+        - name: session_id
+          in: header
+          schema:
+            type: string
+          example: '{
+    {account_session_id
+    }
+}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/publications/add_new_publication:
+    post:
+      tags:
+        - posts
+      summary: new Publication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                message: Accediendo a la informacion, completada
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer {
+    {account_token
+    }
+}
+        - name: session_id
+          in: header
+          schema:
+            type: string
+          example: '{
+    {account_session_id
+    }
+}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/publications/add_like_publication:
+    post:
+      tags:
+        - posts
+      summary: like
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                user_id: c6ad1af7-4d1a-4964-86e9-7c1e48ba2a22
+                post_id: b0802e63-1eae-4491-94d8-81b89501e3ee
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer {
+    {account_token
+    }
+}
+        - name: session_id
+          in: header
+          schema:
+            type: string
+          example: '{
+    {account_session_id
+    }
+}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/publications/all_publications:
+    get:
+      tags:
+        - posts
+      summary: get publications
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer {
+    {account_token
+    }
+}
+        - name: session_id
+          in: header
+          schema:
+            type: string
+          example: '{
+    {account_session_id
+    }
+}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
